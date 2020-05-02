@@ -59,7 +59,6 @@ before_script:
   - sudo pip install configparser
   - sudo pip install pushbullet.py
 
-
   - cd programs
 
 # Compilamos
