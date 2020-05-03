@@ -65,7 +65,7 @@ print("*************************************************************************
 print("Monitoring URL:")
 print("**************************************************************************")
 print("")
-print("Website to be monitorized: "+ webURL)
+print("Website to be monitorized: "+ str(webURL))
 
 print("")
 print("")
@@ -95,7 +95,7 @@ while loopControl==0:
         print("Sorry option not supported, enter available options ...")
 
 print("")
-print("You have selected option number "+ monitorSelection)
+print("You have selected option number: "+ monitorSelection)
 
 # Only a block
 if int(monitorSelection)==2:
