@@ -15,6 +15,7 @@ import datetime
 import os
 import platform
 import requests
+import sys
 import time
 
 # Also use (pip) pushbullet.py (apt) python3-notify2 (pip) win10toast
@@ -222,15 +223,26 @@ while loopPushBulletControl==0:
         print("")
         print("Getting user and token from ../config/authentication.ini ...")
 
-        # Get autentication data
-        print("")
-        print("Getting authentication data ...")
-        authenticationObject = configparser.ConfigParser()
-        authenticationObject.read('../config/authentication.ini')
-        authenticationObject.sections()
+        loopControlFileExists = 0
 
-        userID = authenticationObject['Authentication']['user-id']
-        accessToken = authenticationObject['Authentication']['access-token']
+        while int(loopControlFileExists)==0:
+            try:
+                # Get autentication data
+                print("")
+                print("Getting authentication data ...")
+                authenticationObject = configparser.ConfigParser()
+                authenticationObject.read('../config/authentication.ini')
+                authenticationObject.sections()
+
+                userID = authenticationObject['Authentication']['user-id']
+                accessToken = authenticationObject['Authentication']['access-token']
+                loopControlFileExists = 1
+
+            except:
+                print("")
+                print("Sorry, athentication.ini not founded, waiting 4 seconds to the next check ...")
+                print("")
+                time.sleep(4)
 
         print("Data obtained correctly.")
         print("")
@@ -259,11 +271,25 @@ while int(endTracking==0):
     print("**************************************************************************")
     print("Downloading website:")
     print("**************************************************************************")
-    # Get HTML website
-    print("")
-    print("Geting "+ webURL +" HTML website ...")
-    websiteHTML = requests.get(webURL)
-    print("Website downloaded")
+
+    try:
+        # Get HTML website
+        print("")
+        print("Geting "+ webURL +" HTML website ...")
+        websiteHTML = requests.get(webURL)
+        print("Website downloaded")
+    except:
+        # Website not available
+        print("")
+        print("Error, website not available.")
+        websiteHTML ="null"
+        endTracking = 1
+        print("")
+        print("Press any key to close program.")
+        print("")
+        exitProgram = input()
+        sys.exit()
+
 
     print("")
     print("")
@@ -273,7 +299,11 @@ while int(endTracking==0):
     print("")
     print("Analyzing website ...")
 
+    # **************
+    # Full analysis
+    # **************
     if int(monitorSelection)==1:
+
         # Parse HTML web
         print("")
         print("Analyzing full website ...")
@@ -332,7 +362,9 @@ while int(endTracking==0):
 
                 endTracking = 1
 
-
+    # ***************
+    # Block analysis
+    # ***************
     else:
 
         # Parse HTML website
@@ -340,22 +372,36 @@ while int(endTracking==0):
         print("Analyzing block ...")
         blockWebsiteParsed = BeautifulSoup(websiteHTML.content, 'html.parser')
 
+        #************
         # Find by ID
+        # ***********
         if int(blockTypeSelection)==1:
 
-            # Find id class name
-            analyzedIDResults = blockWebsiteParsed.find(id=str(monitorIDBlock))
+            try:
+                # Find id class name
+                analyzedIDResults = blockWebsiteParsed.find(id=str(monitorIDBlock))
 
-            print("")
-            print("")
-            print("**************************************************************************")
-            print("Analysis results:")
-            print("**************************************************************************")
+                print("")
+                print("")
+                print("**************************************************************************")
+                print("Analysis results:")
+                print("**************************************************************************")
 
-            # Print analyzedResult
-            print("")
-            print("Results: ")
-            print(analyzedIDResults.prettify())
+                # Print analyzedResult
+                print("")
+                print("Results: ")
+                print(analyzedIDResults.prettify())
+
+            except:
+                # Website not available
+                print("")
+                print("Error, ID not founded.")
+                endTracking = 1
+                print("")
+                print("Press any key to close program.")
+                print("")
+                exitProgram = input()
+                sys.exit()
 
             # Create backup first run
             if int(originalBackup)==0:
@@ -411,18 +457,33 @@ while int(endTracking==0):
 
                     endTracking = 1
 
+        # ***************************
         # Find by other configuration
+        # ***************************
         else:
-            analyzedOtherResults = blockWebsiteParsed.find(str(monitorOtherBlockObject), class_=str(monitorOtherBlockClass))
 
-            print("")
-            print("")
-            print("**************************************************************************")
-            print("Analysis results:")
-            print("**************************************************************************")
-            print("")
-            print("Results:")
-            print(str(analyzedOtherResults.text))
+            try:
+                analyzedOtherResults = blockWebsiteParsed.find(str(monitorOtherBlockObject), class_=str(monitorOtherBlockClass))
+
+                print("")
+                print("")
+                print("**************************************************************************")
+                print("Analysis results:")
+                print("**************************************************************************")
+                print("")
+                print("Results:")
+                print(str(analyzedOtherResults.text))
+
+            except:
+                # Website not available
+                print("")
+                print("Error, elements not founded.")
+                endTracking = 1
+                print("")
+                print("Press any key to close program.")
+                print("")
+                exitProgram = input()
+                sys.exit()
 
             # Create backup first run
             if int(originalBackup)==0:
