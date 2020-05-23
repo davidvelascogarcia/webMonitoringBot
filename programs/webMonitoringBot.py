@@ -30,17 +30,17 @@ print("*************************************************************************
 print("**************************************************************************")
 
 print("")
-print("Starting system...")
+print("Starting system ...")
 
 print("")
-print("Loading Web Monitoring Bot engine...")
+print("Loading Web Monitoring Bot engine ...")
 
 print("")
-print("Initializing webMonitoringBot engine...")
+print("Initializing webMonitoringBot engine ...")
 
 # Get system configuration
 print("")
-print("Detecting system and release version...")
+print("Detecting system and release version ...")
 systemPlatform = platform.system()
 systemRelease = platform.release()
 print(" ")
@@ -66,7 +66,7 @@ print("*************************************************************************
 print("Monitoring URL:")
 print("**************************************************************************")
 print("")
-print("Website to be monitorized: "+ str(webURL))
+print("[INFO] Website to be monitorized: "+ str(webURL))
 
 print("")
 print("")
@@ -93,10 +93,10 @@ while loopControl==0:
         loopControl=1
     else:
         print("")
-        print("Sorry option not supported, enter available options ...")
+        print("[ERROR] Sorry option not supported, enter available options ...")
 
 print("")
-print("You have selected option number: "+ monitorSelection)
+print("[INFO] You have selected option number: "+ monitorSelection)
 
 # Only a block
 if int(monitorSelection)==2:
@@ -130,11 +130,11 @@ if int(monitorSelection)==2:
             loopControlBlockType=1
         else:
             print("")
-            print("Sorry option not supported, enter available options ...")
+            print("[ERROR] Sorry option not supported, enter available options ...")
 
     # Enter find object name
     print("")
-    print("You have selected option number "+blockTypeSelection)
+    print("[INFO] You have selected option number "+blockTypeSelection)
 
     # ID type
     if int(blockTypeSelection)==1:
@@ -144,30 +144,30 @@ if int(monitorSelection)==2:
         monitorIDBlock = input()
 
         print("")
-        print("Selected block is: "+monitorIDBlock)
+        print("[INFO] Selected block is: "+monitorIDBlock)
 
     # Other blocks
     if int(blockTypeSelection)==2:
 
         print("")
-        print("You have selected other configuration")
+        print("[INFO] You have selected other configuration")
         print("")
 
         # Enter object type
         print("First you have to enter object type, like: section, div, h1, h2 ...")
         monitorOtherBlockObject = input()
-        print("You have selected: "+ monitorOtherBlockObject)
+        print("[INFO] You have selected: "+ monitorOtherBlockObject)
 
         # Enter class name
         print("")
         print("Now enter class name...")
         monitorOtherBlockClass = input()
-        print("You have selected: "+ monitorOtherBlockClass)
+        print("[INFO] You have selected: "+ monitorOtherBlockClass)
 
 # Full website
 else:
     print("")
-    print("Full website was selected")
+    print("[INFO] Full website was selected")
 
 print("")
 print("Initializing monitoring system ...")
@@ -219,7 +219,7 @@ while loopPushBulletControl==0:
         from pushbullet import Pushbullet
 
         print("")
-        print("You have decided to use Pushbullet notification service.")
+        print("[INFO] You have decided to use Pushbullet notification service.")
         print("")
         print("Getting user and token from ../config/authentication.ini ...")
 
@@ -240,11 +240,11 @@ while loopPushBulletControl==0:
 
             except:
                 print("")
-                print("Sorry, athentication.ini not founded, waiting 4 seconds to the next check ...")
+                print("[ERROR] Sorry, athentication.ini not founded, waiting 4 seconds to the next check ...")
                 print("")
                 time.sleep(4)
 
-        print("Data obtained correctly.")
+        print("[INFO] Data obtained correctly.")
         print("")
         print("Selected user: "+ str(userID))
 
@@ -256,13 +256,13 @@ while loopPushBulletControl==0:
 
     elif str(pushbulletSelection)=="n":
         print("")
-        print("You have decided not use Pushbullet notification service.")
+        print("[INFO] You have decided not use Pushbullet notification service.")
 
         # Exit loop
         loopPushBulletControl = 1
     else:
         print("")
-        print("Sorry option not supported, enter available options ...")
+        print("[ERROR] Sorry option not supported, enter available options ...")
 
 while int(endTracking==0):
 
@@ -277,15 +277,15 @@ while int(endTracking==0):
         print("")
         print("Geting "+ webURL +" HTML website ...")
         websiteHTML = requests.get(webURL)
-        print("Website downloaded")
+        print("[INFO] Website downloaded")
     except:
         # Website not available
         print("")
-        print("Error, website not available.")
+        print("[ERROR] Error, website not available.")
         websiteHTML ="null"
         endTracking = 1
         print("")
-        print("Press any key to close program.")
+        print("[INFO] Press any key to close program.")
         print("")
         exitProgram = input()
         sys.exit()
@@ -318,7 +318,7 @@ while int(endTracking==0):
         else:
             if str(backupFullWebsiteParsed)==str(fullWebsiteParsed):
                 print("")
-                print("Analyzed website has not changes")
+                print("[INFO] Analyzed website has not changes")
             else:
                 print("")
                 print("")
@@ -326,7 +326,7 @@ while int(endTracking==0):
                 print("ALERT:")
                 print("**************************************************************************")
                 print("")
-                print("¡¡¡Changes detected!!!")
+                print("[INFO] ¡¡¡Changes detected!!!")
                 print("")
                 print("Sending notifications ...")
 
@@ -357,7 +357,7 @@ while int(endTracking==0):
                     pushbulletMessage = "webMonitoringBot has detected changes on "+str(webURL)+" website."
                     pushbulletRequest = pushbulletNotification.push_note(str(pushbulletTitle), str(pushbulletMessage))
                     print("")
-                    print("Push sent")
+                    print("[INFO] Push sent")
                     time.sleep(2)
 
                 endTracking = 1
@@ -389,13 +389,13 @@ while int(endTracking==0):
 
                 # Print analyzedResult
                 print("")
-                print("Results: ")
+                print("[RESULTS] Request results: ")
                 print(analyzedIDResults.prettify())
 
             except:
                 # Website not available
                 print("")
-                print("Error, ID not founded.")
+                print("[ERROR] Error, ID not founded.")
                 endTracking = 1
                 print("")
                 print("Press any key to close program.")
@@ -421,7 +421,7 @@ while int(endTracking==0):
                     print("ALERT:")
                     print("**************************************************************************")
                     print("")
-                    print("¡¡¡Changes detected!!!")
+                    print("[INFO] ¡¡¡Changes detected!!!")
                     print("")
                     print("Sending notifications ...")
 
@@ -452,7 +452,7 @@ while int(endTracking==0):
                         pushbulletMessage = "webMonitoringBot has detected changes on "+str(webURL)+" website in "+ str(monitorIDBlock)+" ID block."
                         pushbulletRequest = pushbulletNotification.push_note(str(pushbulletTitle), str(pushbulletMessage))
                         print("")
-                        print("Push sent")
+                        print("[INFO] Push sent")
                         time.sleep(2)
 
                     endTracking = 1
@@ -471,13 +471,13 @@ while int(endTracking==0):
                 print("Analysis results:")
                 print("**************************************************************************")
                 print("")
-                print("Results:")
+                print("[RESULTS] Request results:")
                 print(str(analyzedOtherResults.text))
 
             except:
                 # Website not available
                 print("")
-                print("Error, elements not founded.")
+                print("[ERROR] Error, elements not founded.")
                 endTracking = 1
                 print("")
                 print("Press any key to close program.")
@@ -494,7 +494,7 @@ while int(endTracking==0):
             else:
                 if str(backupAnalyzedOtherResults)==str(analyzedOtherResults):
                     print("")
-                    print("Analyzed block has not changes")
+                    print("[INFO] Analyzed block has not changes")
                 else:
 
 
@@ -504,7 +504,7 @@ while int(endTracking==0):
                     print("ALERT:")
                     print("**************************************************************************")
                     print("")
-                    print("¡¡¡Changes detected!!!")
+                    print("[INFO] ¡¡¡Changes detected!!!")
                     print("")
                     print("Sending notifications ...")
 
@@ -535,7 +535,7 @@ while int(endTracking==0):
                         pushbulletMessage = "webMonitoringBot has detected changes on "+str(webURL)+" website in "+ str(monitorOtherBlockObject)+" object "+ monitorOtherBlockClass+" class."
                         pushbulletRequest = pushbulletNotification.push_note(str(pushbulletTitle), str(pushbulletMessage))
                         print("")
-                        print("Push sent")
+                        print("[INFO] Push sent")
                         time.sleep(2)
 
                     endTracking = 1
@@ -549,4 +549,4 @@ while int(endTracking==0):
     print("Monitoring finished:")
     print("**************************************************************************")
     print("")
-    print("Website analyzed and monitorig done correctly.")
+    print("[INFO] Website analyzed and monitorig done correctly.")
